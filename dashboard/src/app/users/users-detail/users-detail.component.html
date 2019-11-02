@@ -1,0 +1,148 @@
+<div class="row mb-4">
+  <span class="col-5">
+    <button matTooltip="Back" matTooltipPosition="above" mat-raised-button class="" routerLink="/users">
+      <i class="material-icons">
+        reply
+      </i>
+    </button>
+    <button matTooltip="Edit this user" matTooltipPosition="above" mat-raised-button class="ml-3" (click)="edit()">
+        <i class="material-icons">
+          edit
+        </i>
+    </button>
+  </span>
+  <span class="col-7">
+    <button *ngIf="hasEdits"  matTooltip="Abandon changes" matTooltipPosition="before" mat-raised-button class="ml-3" (click)="abandon()">
+      <i class="material-icons">
+        backspace
+      </i>
+    </button>
+    <button *ngIf="hasEdits"  matTooltip="Save changes" matTooltipPosition="after" mat-raised-button class="ml-5" (click)="save()">
+      <i class="material-icons">
+        save
+      </i>
+    </button>
+  </span>
+</div>
+
+<div *ngIf="user && !isEditing">
+  <p class="row">
+    <span class="col-3 label1">uuid:</span>
+    <span class="col-9">{{ tempUser.uuid }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">firstName:</span>
+    <span class="col-9">{{ tempUser.firstName }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">lastName:</span>
+    <span class="col-9">{{ tempUser.lastName }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">email:</span>
+    <span class="col-9">{{ tempUser.email }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">userName:</span>
+    <span class="col-9">{{ tempUser.userName }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">streetAddress:</span>
+    <span class="col-9">{{ tempUser.streetAddress }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">city:</span>
+    <span class="col-9">{{ tempUser.city }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">state:</span>
+    <span class="col-9">{{ tempUser.state }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">zipCode:</span>
+    <span class="col-9">{{ tempUser.zipCode }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">phoneNumber:</span>
+    <span class="col-9">{{ tempUser.phoneNumber }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">createdOn:</span>
+    <span class="col-9">{{ tempUser.createdOn }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">createdBy:</span>
+    <span class="col-9">{{ tempUser.createdBy }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">updatedOn:</span>
+    <span class="col-9">{{ tempUser.updatedOn }}</span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">updatedBy:</span>
+    <span class="col-9">{{ tempUser.updatedBy }}</span>
+  </p>
+</div>
+
+<!-- <mat-form-field>
+  <input matInput placeholder="Age">
+</mat-form-field> -->
+
+<div *ngIf="user && isEditing">
+  <p class="row">
+    <span class="col-3 label1">uuid:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [value]="tempUser.uuid" disabled/></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">firstName:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.firstName" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">lastName:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.lastName" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">email:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.email" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">userName:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.userName" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">streetAddress:</span>
+    <span class="col-9"><input (keyup)="onKey($event)"class="user-input" [(ngModel)]="tempUser.streetAddress" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">city:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.city" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">state:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.state" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">zipCode:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.zipCode" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">phoneNumber:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.phoneNumber" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">createdOn:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.createdOn" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">createdBy:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.createdBy" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">updatedOn:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.updatedOn" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">updatedBy:</span>
+    <span class="col-9"><input (keyup)="onKey($event)" class="user-input" [(ngModel)]="tempUser.updatedBy" /></span>
+  </p>
+</div>
