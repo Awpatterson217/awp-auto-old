@@ -1,4 +1,8 @@
-'use strict'
+'use strict';
+
+/**
+ * @author Adam Patterson <awpatterson217@gmail.com>
+ */
 
 const util = require('util');
 const path = require('path');
@@ -15,9 +19,7 @@ const {
   getVersions
 } = require('./utils');
 
-const {
-  sep
-} = path;
+const { sep } = path;
 
 pm2.connectAsync = util.promisify(pm2.connect);
 pm2.startAsync = util.promisify(pm2.start);

@@ -1,4 +1,8 @@
-'use strict'
+'use strict';
+
+/**
+ * @author Adam Patterson <awpatterson217@gmail.com>
+ */
 
 const winston = require('winston');
 const path = require('path');

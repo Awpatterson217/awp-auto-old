@@ -1,4 +1,8 @@
-'use strict'
+'use strict';
+
+/**
+ * @author Adam Patterson <awpatterson217@gmail.com>
+ */
 
 const express = require('express');
 const winston = require('winston');
@@ -25,22 +29,23 @@ app.use(express.json());
  * - create read package.config for version number and name
  * - Integrate version numbers
  */
-// const logger = winston.createLogger({
-//   level: 'info',
-//   format: winston.format.json(),
-//   transports: [
-//     new winston.transports.File({
-//       filename: config.log.error,
-//       level: 'error'
-//     }),
-//     new winston.transports.File({
-//       filename: config.log.main
-//     })
-//   ]
-// });
-// logger.info("info 127.0.0.1 - there's no place like home");
-// logger.warn("warn 127.0.0.1 - there's no place like home");
-// logger.error("error 127.0.0.1 - there's no place like home");
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({
+      filename: config.log.error.path,
+      level: 'error'
+    }),
+    new winston.transports.File({
+      filename: config.log.main.path
+    })
+  ]
+});
+
+// logger.info("");
+// logger.warn("");
+// logger.error("");
 
 app.use(express.static(config.dashboard.path));
 
@@ -114,6 +119,7 @@ app.post('/provision', ({ body: { host, port, url, name }}, res) => {
 
 app.put('/provision', (req, res) => {
   console.log(req.body);
+
   const {
     action,
     id
@@ -197,5 +203,5 @@ const server = app.listen(config.port, config.host, () => {
   const host = server.address().address;
   const port = server.address().port;
 
-  console.log(`Generate server listening at ${host}:${port}`);
+  console.log(`Automation server listening at ${host}:${port}`);
 });
