@@ -22,6 +22,7 @@ const {
   }
 } = config;
 
+// TODO: Create test repositories. Change URL.
 const optionsOne = {
   url: 'https://github.com/nodegit/nodegit',
   host: '127.0.0.5',

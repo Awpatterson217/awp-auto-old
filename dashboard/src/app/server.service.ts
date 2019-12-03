@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,13 +7,40 @@ import { HttpClient } from '@angular/common/http';
 export class ServerService {
 
   constructor(private http: HttpClient) { }
-  private url: string = 'http://127.0.0.1:3000/server'
+  private activeServersURL: string = 'http://127.0.0.1:3000/server/active'
+  private inactiveServersURL: string = 'http://127.0.0.1:3000/server/inactive'
 
-  getServers() {
-    return this.http.get(this.url);
+  getActiveServers() {
+    return this.http.get(this.activeServersURL);
   }
 
-  getServer(id) {
-    return this.http.get(`${this.url}/${id}`);
+  getActiveServer(id) {
+    return this.http.get(`${this.activeServersURL}/${id}`);
+  }
+
+  getInactiveServers() {
+    return this.http.get(this.inactiveServersURL);
+  }
+
+  getInactiveServer(id) {
+    return this.http.get(`${this.inactiveServersURL}/${id}`);
+  }
+
+  updateActiveServer({ action, id }) {
+    console.log({action})
+    console.log({id})
+    // start, reload, suspend
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'my-auth-token'
+      })
+    };
+
+    return this.http.put(this.activeServersURL, { action, id }, httpOptions);
+  }
+
+  deleteActiveServer(id) {
+    return this.http.delete(`${this.activeServersURL}/${id}`);
   }
 }

@@ -13,13 +13,12 @@ const {
   Clone: clone
 } = require('nodegit');
 
+// TODO
 const File = require('./File');
 const {
   makeServerString,
   getVersions
 } = require('./utils');
-
-const { sep } = path;
 
 pm2.connectAsync = util.promisify(pm2.connect);
 pm2.startAsync = util.promisify(pm2.start);
@@ -72,7 +71,7 @@ async function reload(id) {
   } finally {
     await pm2.disconnect();
   }
-  
+
   return true;
 }
 
@@ -116,7 +115,9 @@ async function listAll() {
 
     list = await pm2.listAsync();
   } finally {
+    console.log('About to disconnect...');
     await pm2.disconnect();
+    console.log('Disconnected');
   }
 
   if (list.length) {
@@ -138,6 +139,13 @@ async function listAll() {
   return [];
 }
 
+// TODO: Integrate versions
+// Strategies:
+// - Take version number from package.json
+// - Manually pass in version number
+// - Automatically increment
+// Check for existing version or throw error?
+// Check for existing host and port numbers or throw error?
 async function provision({
   host,
   port,
@@ -151,11 +159,15 @@ async function provision({
   }
 
   const id = `${name}_server`;
+  // TODO:
+  // const servicePath = path.join(servicesPath, name, version);
   const servicePath = path.join(servicesPath, name);
   const serverPath = path.join(servicePath, `${id}.js`);
   const outFile = new File(serverPath);
 
+  // TODO: Pass in custom sourch path (as opposed to dist/app)
   const source = path.join(tempPath, 'dist', 'app');
+  // TODO: Should not change when integrating version numbers
   const destination = path.join(servicePath, 'app');
 
   const data = makeServerString({
@@ -180,11 +192,13 @@ async function provision({
 
     await pm2.startAsync(serverPath);
 
+    // TODO: Check for existance of tempPath in case of unexpected error?
     await fs.remove(tempPath);
   } finally {
     await pm2.disconnect();
   }
 
+  // TODO: Version property
   return {
     port,
     host,

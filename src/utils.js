@@ -42,21 +42,27 @@ const getVersions = ({
       };
     }),
     getLatest() {
+      // TODO: Sort by this.versions.number?
       return this.versions.sort().reverse()[0];
     },
     getOne({
       number
     }) {
+      // TODO: Use this.versions.find()?
+      // Why am I returning an array?
       return this.versions.filter(
         (version) => version.number === number
       );
     },
+    // TODO: Redundant?
     getAll() {
       return this.versions;
     }
   };
 }
 
+// TODO: Add logger and logger path.
+// TODO: Create API to get logs from path (JSON?)
 const makeServerString = ({ host, port }) => `'use strict'
 
 const express = require('express');
@@ -81,7 +87,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(${port}, '${host}', () => {
-    console.log('Test express server listening at ${host}:${port}')
+    console.log('Server listening at ${host}:${port}')
 });`;
 
 module.exports = {
@@ -96,6 +102,6 @@ module.exports = {
 //   servicesPath
 // });
 
-// // console.log(dashboardVersions.getAll());
+// console.log(dashboardVersions.getAll());
 // console.log(dashboardVersions.getLatest());
 // console.log(dashboardVersions.getOne({ number: '1.0.1' }));

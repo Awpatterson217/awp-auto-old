@@ -1,33 +1,59 @@
 <mat-accordion multi="true">
-    <mat-expansion-panel *ngFor="let server of servers">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <i *ngIf="server.status === 'online'" class="material-icons text-success mr-3">
-            signal_cellular_alt
-          </i>
-          <i *ngIf="server.status === 'stopped'" class="material-icons text-warning mr-3">
-            pause
-          </i>
-          <i *ngIf="server.status === 'errored'" class="material-icons text-danger mr-3">
-            error
-          </i>
-          <span class="server-title">{{ server.id | titlecase}}</span>
-        </mat-panel-title>
-        <mat-panel-description>
-          <!-- {{ server.repository }} -->
-        </mat-panel-description>
-      </mat-expansion-panel-header>
+  <h3>Active</h3>
 
-      <div class="row">
-        <div class="col-9 p-1 text-center">
-          <button mat-raised-button (click)="start(server.id)" class="btn btn-success">Start</button>
-          <button mat-raised-button (click)="reload(server.id)" class="btn btn-primary  ml-2">Reload</button>
-          <button mat-raised-button (click)="suspend(server.id)" class="btn btn-warning ml-2">Suspend</button>
-          <button mat-raised-button (click)="remove(server.id)" class="btn btn-danger ml-2">Remove</button>
-        </div>
-        <div class="col-3 p-1">
-          <button mat-raised-button [routerLink]="['/servers/logs', server.id]" class="btn btn-info">Logs</button>
-        </div>
+  <mat-expansion-panel *ngFor="let activeServer of activeServers">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <i *ngIf="activeServer.status === 'online'" class="material-icons text-success mr-3">
+          signal_cellular_alt
+        </i>
+        <i *ngIf="activeServer.status === 'stopped'" class="material-icons text-warning mr-3">
+          pause
+        </i>
+        <i *ngIf="activeServer.status === 'errored'" class="material-icons text-danger mr-3">
+          error
+        </i>
+        <span class="server-title">{{ activeServer.id | titlecase}}</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        <!-- {{ activeServer.repository }} -->
+        <!-- {{ activeServer.version }} -->
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="row">
+      <div class="col-9 p-1 text-center">
+        <button mat-raised-button (click)="startActiveServer(activeServer.id)" class="btn btn-success">Start</button>
+        <button mat-raised-button (click)="reloadActiveServer(activeServer.id)" class="btn btn-primary  ml-2">Reload</button>
+        <button mat-raised-button (click)="suspendActiveServer(activeServer.id)" class="btn btn-warning ml-2">Suspend</button>
+        <button mat-raised-button (click)="deleteActiveServer(activeServer.id)" class="btn btn-danger ml-2">Remove</button>
       </div>
-    </mat-expansion-panel>
+      <div class="col-3 p-1">
+        <button mat-raised-button [routerLink]="['/servers/logs', activeServer.id]" class="btn btn-info">Logs</button>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+  <h3>Inactive</h3>
+
+  <mat-expansion-panel *ngFor="let inactiveServer of inactiveServers">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <span class="server-title">{{ inactiveServer.id | titlecase}}</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        <!-- {{ inactiveServer.repository }} -->
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="row">
+      <div class="col-9 p-1 text-center">
+        <button mat-raised-button (click)="provisionInactiveServer(activeServer.id)" class="btn btn-success">Provision</button>
+        <button mat-raised-button (click)="deleteInactiveServer(activeServer.id)" class="btn btn-danger ml-2">Remove Forever</button>
+      </div>
+      <div class="col-3 p-1">
+        <button mat-raised-button [routerLink]="['/servers/logs', inactiveServer.id]" class="btn btn-info">Logs</button>
+      </div>
+    </div>
+  </mat-expansion-panel>
 </mat-accordion>

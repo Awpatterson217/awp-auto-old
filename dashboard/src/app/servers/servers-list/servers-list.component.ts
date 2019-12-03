@@ -4,28 +4,6 @@ import { ProvisionService } from 'src/app/provision.service';
 import { ConfirmDialogComponent } from 'src/app/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material';
 
-const servers = [{
-  id: 'server1',
-  status: 'active',
-  repository: "https://gerrit.fischerinternational.com/admin/repos"
-},{
-  id: 'server2',
-  status: 'active',
-  repository: "https://gerrit.fischerinternational.com/admin/repos"
-},{
-  id: 'server3',
-  status: 'suspended',
-  repository: "https://gerrit.fischerinternational.com/admin/repos"
-},{
-  id: 'server4',
-  status: 'active',
-  repository: "https://gerrit.fischerinternational.com/admin/repos"
-},{
-  id: 'server5',
-  status: 'errored',
-  repository: "https://gerrit.fischerinternational.com/admin/repos"
-}];
-
 @Component({
   selector: 'servers-list',
   templateUrl: './servers-list.component.html',
@@ -33,7 +11,8 @@ const servers = [{
 })
 export class ServersListComponent implements OnInit {
   panelOpenState = true;
-  servers;
+  activeServers;
+  inactiveServers;
 
   constructor(
     private serverService: ServerService,
@@ -42,13 +21,51 @@ export class ServersListComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    // this.servers = servers;
-    this.getServers();
+    this.getActiveServers();
+    this.getInactiveServers();
   }
 
-  getServers() {
-    this.serverService.getServers().subscribe((data: any) => {
-      this.servers = data;
+  getActiveServers() {
+    this.serverService.getActiveServers().subscribe((data: any) => {
+      this.activeServers = data;
+    });
+  }
+
+  getInactiveServers() {
+    this.serverService.getInactiveServers().subscribe((data: any) => {
+      this.inactiveServers = data;
+    });
+  }
+
+  startActiveServer(id) {
+    // PUT /server/active {action: "start"}
+    this.serverService.updateActiveServer({ action: 'start', id }).subscribe((data: any) => {
+      console.log(data);
+      this.getActiveServers();
+    });
+  }
+
+  reloadActiveServer(id) {
+    // PUT /server/active {action: "reload"}
+    this.serverService.updateActiveServer({ action: 'reload', id }).subscribe((data: any) => {
+      console.log(data);
+      this.getActiveServers();
+    });
+  }
+
+  suspendActiveServer(id) {
+    // PUT /server/active {action: "suspend"}
+    this.serverService.updateActiveServer({ action: 'suspend', id }).subscribe((data: any) => {
+      console.log(data);
+      this.getActiveServers();
+    });
+  }
+
+  deleteActiveServer(id) {
+    // DELETE /server/active {id}
+    this.serverService.deleteActiveServer(id).subscribe((data: any) => {
+      console.log(data);
+      this.getActiveServers();
     });
   }
 
@@ -56,40 +73,17 @@ export class ServersListComponent implements OnInit {
     // POST /provision {host, port, url, name}
     this.provisionService.provision({ host, port, url, name }).subscribe((data: any) => {
       console.log(data);
-      this.getServers();
+      this.getActiveServers();
+      // this.getInactiveServers();
     });
   }
 
-  start(id) {
-    // PUT /provision {action: "start"}
-    this.provisionService.put({ action: 'start', id }).subscribe((data: any) => {
-      console.log(data);
-      this.getServers();
-    });
+  provisionInactiveServer() {
+
   }
 
-  reload(id) {
-    // PUT /provision {action: "reload"}
-    this.provisionService.put({ action: 'reload', id }).subscribe((data: any) => {
-      console.log(data);
-      this.getServers();
-    });
-  }
+  deleteInactiveServer() {
 
-  suspend(id) {
-    // PUT /provision {action: "suspend"}
-    this.provisionService.put({ action: 'suspend', id }).subscribe((data: any) => {
-      console.log(data);
-      this.getServers();
-    });
-  }
-
-  remove(id) {
-    // DELETE /provision {id}
-    this.provisionService.delete(id).subscribe((data: any) => {
-      console.log(data);
-      this.getServers();
-    });
   }
 
   openDialog() {
