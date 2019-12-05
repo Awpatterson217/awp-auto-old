@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UserService {
   constructor(private http: HttpClient) { }
-  private url: string = 'http://127.0.0.1:8080/users'
+  private url: string = 'http://127.0.0.1:8080/admin/api/users'
 
   getUsers() {
     return this.http.get(this.url);

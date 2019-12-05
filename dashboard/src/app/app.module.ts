@@ -14,7 +14,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { 
+import {
   MatFormFieldModule,
   MatInputModule,
   MatDialogModule
@@ -40,29 +40,32 @@ import { ServersLogsComponent } from './servers/servers-logs/servers-logs.compon
 import { DialogComponent } from './dialogs/dialog.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 
-const appRoutes: Routes = [
-  {
-    path: 'servers',
-    component: ServersComponent,
-    children: [
-      {path: 'list', component: ServersListComponent},
-      {path: 'logs/:id', component: ServersLogsComponent},
-      {path: '', redirectTo: 'list', pathMatch: 'full'},
-    ]
-  },
-  {
-    path: 'users',
-    component: UsersComponent,
-    children: [
-      {path: 'table', component: UsersTableComponent},
-      {path: 'details/:uuid', component: UsersDetailComponent},
-      {path: '', redirectTo: 'table', pathMatch: 'full'},
-    ]
-  },
-  {path: 'home', component: HomeComponent},
-  {path: 'settings', component: SettingsComponent},
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-];
+const appRoutes: Routes = [{
+  path: 'admin/dashboard',
+  children: [
+    {
+      path: 'servers',
+      component: ServersComponent,
+      children: [
+        {path: 'list', component: ServersListComponent},
+        {path: 'logs/:id', component: ServersLogsComponent},
+        {path: '', redirectTo: 'list', pathMatch: 'full'},
+      ]
+    },
+    {
+      path: 'users',
+      component: UsersComponent,
+      children: [
+        {path: 'table', component: UsersTableComponent},
+        {path: 'details/:uuid', component: UsersDetailComponent},
+        {path: '', redirectTo: 'table', pathMatch: 'full'},
+      ]
+    },
+    {path: 'home', component: HomeComponent},
+    {path: 'settings', component: SettingsComponent},
+    {path: '', redirectTo: '/admin/dashboard/home', pathMatch: 'full'}
+  ]
+}];
 
 @NgModule({
   declarations: [

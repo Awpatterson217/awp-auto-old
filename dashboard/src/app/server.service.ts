@@ -7,29 +7,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ServerService {
 
   constructor(private http: HttpClient) { }
-  private activeServersURL: string = 'http://127.0.0.1:3000/server/active'
-  private inactiveServersURL: string = 'http://127.0.0.1:3000/server/inactive'
+  private url: string = 'http://127.0.0.1:3000/admin/api/server'
 
-  getActiveServers() {
-    return this.http.get(this.activeServersURL);
+  getServers() {
+    return this.http.get(this.url);
   }
 
-  getActiveServer(id) {
-    return this.http.get(`${this.activeServersURL}/${id}`);
+  getServer(id) {
+    return this.http.get(`${this.url}/${id}`);
   }
 
-  getInactiveServers() {
-    return this.http.get(this.inactiveServersURL);
-  }
-
-  getInactiveServer(id) {
-    return this.http.get(`${this.inactiveServersURL}/${id}`);
-  }
-
-  updateActiveServer({ action, id }) {
-    console.log({action})
-    console.log({id})
-    // start, reload, suspend
+  update({ action, id }) {
+    // Action = start, reload, suspend
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -37,10 +26,10 @@ export class ServerService {
       })
     };
 
-    return this.http.put(this.activeServersURL, { action, id }, httpOptions);
+    return this.http.put(this.url, { action, id }, httpOptions);
   }
 
-  deleteActiveServer(id) {
-    return this.http.delete(`${this.activeServersURL}/${id}`);
+  delete(id) {
+    return this.http.delete(`${this.url}/${id}`);
   }
 }

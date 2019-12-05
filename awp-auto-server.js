@@ -25,51 +25,35 @@ app.use(express.json());
 
 /**
  * TODO:
- * - Separate UI server list to active and inactive.
- * - Create mechanism for keeping track of inactive servers.
  * - Authentication API and UI.
- * Keep dashboard and login UIs separate?
- * Use a uniquely generated path that only exists for the duration of the session,
- * while also verifying the session to access the URL? Would be more secure, could allow
- * the dashboard to still manually refresh pages, could mitigate the risk of somehow
- * bypassing the login UI and accessing the dashboard directly?
- * - Add provision to dashboard.
+ * - Login UIs
+ * - Unique, generated paths that only exists for the duration of the session.
+ * - Add provision tab to dashboard.
  * - Add dedicated database to manage login information.
- * Scripts to manage DBS for easy installation and maintenance of this project?
- * Automate total installation for this project?
- * - Remove dashboard for users? Or create Users API? Purpose?
- * If managing users for web applications, should this go some place else,
- * like perhaps a unique page for each server.
+ * - Automate installation.
  * - Add GIT repo, version number, and option to update the
  * web application for each listed server in dashboard.
  * - Create an update API for managed web applications.
  * - Separate APIs by function using Routers.
- * - Find a way to handle browser refresh for dashboard routes.
- * otherwise when refreshing browser page server returns nothing.
  * - create build function (npm install && ng build)
- * - create read package.config for version number and name
- * - Integrate version numbers
- * - Add logging API for this server and services
- * (Is the below safe? otherwise script? Verify identity with key?)
+ * - Integrate version numbers to directory paths.
+ * - Logging
  * - Create update function and API
  * - Create sessions (Redis?)
- * - Only one user at a time?
- * - Create tests
+ * - Testing
  * - Change all filter()[0] to find()
+ * - Research pm2.startup(platform, errback)
  */
 
  /**
   * Ideas:
-  *
-  * Option to have API servers as well? Using databases hosted in docker
-  * containers? Include certain parameters for database, include local versus other?
+  * Scripts to manage DBS for easy installation and maintenance of this project
   *
   * Possibly change provision to use docker containers, with the option for a database
   * and/or web application and/or API delivering data to web application from database
   * based on parameters.
   *
-  * Keep PM2 but add the option to use Docker container later on?
-  * Can I use docker with PM2 natively? Otherwise how to interface with each docker container.
+  * create read package.config for version number and name
   */
 
 const logger = winston.createLogger({
@@ -92,19 +76,28 @@ const logger = winston.createLogger({
 
 app.use(express.static(config.dashboard.path));
 
+// Allow refreshing of page
+app.use((req, res, next) => {
+  if (req.originalUrl.includes('admin/dashboard')) {
+    res.sendFile(`${config.dashboard.path}/index.html`);
+  } else {
+    next();
+  }
+});
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
     // allow preflight
     if (req.method === 'OPTIONS') {
-        res.send(200);
+      res.send(200);
     } else {
-        next();
+      next();
     }
 });
 
-app.get('/server/active', (req, res) => {
+app.get('/admin/api/server', (req, res) => {
   listAll()
     .then((processes) => {
       res.set('Access-Control-Allow-Origin', '*').status(200).json(processes);
@@ -116,7 +109,7 @@ app.get('/server/active', (req, res) => {
     });
 });
 
-app.get('/server/active/:id', (req, res) => {
+app.get('/admin/api/server/:id', (req, res) => {
   const { id } = req.params;
 
   list(id)
@@ -130,7 +123,7 @@ app.get('/server/active/:id', (req, res) => {
     });
 });
 
-app.put('/server/active', (req, res) => {
+app.put('/admin/api/server', (req, res) => {
   console.log(req.body);
 
   const {
@@ -182,7 +175,7 @@ app.put('/server/active', (req, res) => {
   }
 });
 
-app.delete('/server/:id', (req, res) => {
+app.delete('/admin/api/server/:id', (req, res) => {
   const { id } = req.params;
 
   remove(id)
@@ -198,35 +191,7 @@ app.delete('/server/:id', (req, res) => {
     });
 });
 
-// TODO
-app.get('/server/inactive', (req, res) => {
-  listAll()
-    .then((processes) => {
-      res.set('Access-Control-Allow-Origin', '*').status(200).json(processes);
-    })
-    .catch((error) => {
-      console.error(error);
-
-      res.status(500).json(error);
-    });
-});
-
-// TODO
-app.get('/server/inactive/:id', (req, res) => {
-  const { id } = req.params;
-
-  list(id)
-    .then((process) => {
-      res.set('Access-Control-Allow-Origin', '*').status(200).json(process);
-    })
-    .catch((error) => {
-      console.error(error);
-
-      res.status(500).json(error);
-    });
-});
-
-app.post('/provision', ({ body: { host, port, url, name }}, res) => {
+app.post('/admin/api/provision', ({ body: { host, port, url, name }}, res) => {
   const {
     temp: {
       path: tempPath

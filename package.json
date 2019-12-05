@@ -1,11 +1,11 @@
 {
   "name": "awp-auto",
   "version": "1.0.0",
-  "description": "",
-  "main": "awpAutoServer.js",
+  "description": "This is a description",
+  "main": "awp-auto-server.js",
   "scripts": {
-    "start": "node awpAutoServer.js",
-    "test": "node output/test.js"
+    "start": "node awp-auto-server.js",
+    "test": "node awp-auto-server.js"
   },
   "author": "Adam W Patterson",
   "license": "ISC",

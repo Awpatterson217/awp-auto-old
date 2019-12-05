@@ -11,6 +11,7 @@ const fs = require('fs');
 const getDirectories = ({
   root
 }) => {
+  // TODO: Make async
   return fs.readdirSync(root, {
       withFileTypes: true
     })
@@ -19,42 +20,28 @@ const getDirectories = ({
 }
 
 const getVersions = ({
-  servicesPath,
-  name
+  servicePath
 }) => {
-  if (!name) {
-    throw new Error('getVersions - no name parameter');
-  }
-
-  const trimmedName = name.toLowerCase().trim();
-
-  const root = path.join(servicesPath, trimmedName);
+  const name = servicePath.split(`${path.sep}`).pop();
 
   return {
-    name: trimmedName,
+    name,
     versions: getDirectories({
-      root
+      root: servicePath
     }).map((version) => {
       return {
         number: version,
-        rootPath: path.join(root, version),
-        appPath: path.join(root, version, 'dist', trimmedName)
+        rootPath: path.join(servicePath, version)
       };
     }),
     getLatest() {
-      // TODO: Sort by this.versions.number?
-      return this.versions.sort().reverse()[0];
+      return this.versions.sort((a, b) => a.number - b.number).reverse().pop();
     },
-    getOne({
-      number
-    }) {
-      // TODO: Use this.versions.find()?
-      // Why am I returning an array?
-      return this.versions.filter(
+    getOne({ number }) {
+      return this.versions.find(
         (version) => version.number === number
       );
     },
-    // TODO: Redundant?
     getAll() {
       return this.versions;
     }
@@ -63,27 +50,38 @@ const getVersions = ({
 
 // TODO: Add logger and logger path.
 // TODO: Create API to get logs from path (JSON?)
-const makeServerString = ({ host, port }) => `'use strict'
+// TODO: Find cleaner solution to browser refresh bug.
+// TODO: Send custom error file instead of JSON.
+const makeServerString = ({
+  host,
+  port
+}) => `'use strict'
 
 const express = require('express');
 const path = require('path');
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'app')))
+const appPath = path.join(__dirname, 'www');
+
+app.use(express.static(appPath))
 
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  res.sendFile(path.join(appPath, 'index.html'));
+});
+
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 app.use((err, req, res, next) => {
-    res.status(err.status || 500)
-        .json({
-            message: err.message,
-            error: {}
-        });
+  res.status(err.status || 500)
+    .json({
+      message: err.message,
+      error: {}
+    });
 });
 
 app.listen(${port}, '${host}', () => {
