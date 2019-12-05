@@ -10,5 +10,3 @@ node_modules
 dashboard/node_modules
 /dashboard/node_modules
 
-# Ignore generated back end servers
-services/

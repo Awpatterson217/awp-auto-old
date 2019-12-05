@@ -85,6 +85,7 @@ app.use((req, res, next) => {
   }
 });
 
+// TODO: Is this safe?
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
@@ -207,6 +208,8 @@ app.post('/admin/api/provision', ({ body: { host, port, url, name }}, res) => {
     url,
     name,
     tempPath,
+    // TODO
+    // instances,
     servicesPath
    };
 
