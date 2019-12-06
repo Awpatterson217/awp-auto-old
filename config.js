@@ -15,7 +15,7 @@ module.exports = {
   services: {
     path: join(__dirname, 'services')
   },
-  temp: { 
+  temp: {
     path: join(__dirname, 'temp')
   },
   log: {
