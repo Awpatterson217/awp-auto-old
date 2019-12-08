@@ -12,22 +12,29 @@ const getDirectories = ({
   root
 }) => {
   // TODO: Make async
-  return fs.readdirSync(root, {
+  if (fs.existsSync(path)) {
+    return fs.readdirSync(root, {
       withFileTypes: true
     })
     .filter(obj => obj.isDirectory())
     .map(obj => obj.name)
+  }
+
+  return [];
 }
 
 const getVersions = ({
   servicePath
 }) => {
-  const name = servicePath.split(`${path.sep}`).pop();
+  const servicePathArr = servicePath.split(`${path.sep}`);
+
+  const rootPath = path.join(...servicePathArr.slice(0, servicePathArr.length - 1));
+  const name = servicePathArr.slice(servicePathArr.length - 2, servicePathArr.length - 1);
 
   return {
     name,
     versions: getDirectories({
-      root: servicePath
+      root: rootPath
     }).map((version) => {
       return {
         number: version,
@@ -92,14 +99,3 @@ module.exports = {
   makeServerString,
   getVersions
 };
-
-// const servicesPath = path.join(__dirname, 'services');
-
-// const dashboardVersions = getVersions({
-//   name: 'dashboard',
-//   servicesPath
-// });
-
-// console.log(dashboardVersions.getAll());
-// console.log(dashboardVersions.getLatest());
-// console.log(dashboardVersions.getOne({ number: '1.0.1' }));

@@ -4,8 +4,8 @@
   "description": "This is a description",
   "main": "awp-auto-server.js",
   "scripts": {
-    "start": "node awp-auto-server.js",
-    "test": "node awp-auto-server.js"
+    "start": "pm2 start awp-auto-server.js -o /src/github/awp-auto/logs/server.log -e /src/github/awp-auto/logs/error.log",
+    "test": "pm2 start awp-auto-server.js -l logs/"
   },
   "author": "Adam W Patterson",
   "license": "ISC",

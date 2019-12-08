@@ -32,6 +32,8 @@ import { FooterComponent } from './footer/footer.component';
 import { TopNavComponent } from './top-nav/top-nav.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ProvisionComponent } from './provision/provision.component';
+import { ProvisionNewComponent } from './provision/provision-new/provision-new.component';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ServersComponent } from './servers/servers.component';
@@ -48,8 +50,16 @@ const appRoutes: Routes = [{
       component: ServersComponent,
       children: [
         {path: 'list', component: ServersListComponent},
-        {path: 'logs/:id', component: ServersLogsComponent},
+        {path: 'logs/:name', component: ServersLogsComponent},
         {path: '', redirectTo: 'list', pathMatch: 'full'},
+      ]
+    },
+    {
+      path: 'provision',
+      component: ServersComponent,
+      children: [
+        {path: 'new', component: ProvisionNewComponent},
+        {path: '', redirectTo: 'new', pathMatch: 'full'},
       ]
     },
     {
@@ -82,7 +92,9 @@ const appRoutes: Routes = [{
     ServersListComponent,
     ServersLogsComponent,
     DialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ProvisionComponent,
+    ProvisionNewComponent
   ],
   imports: [
     AngularFontAwesomeModule,

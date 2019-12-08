@@ -7,14 +7,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./servers-logs.component.css']
 })
 export class ServersLogsComponent implements OnInit {
-  id;
+  name;
 
   constructor(
     private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id');
+    this.name = this.route.snapshot.paramMap.get('name');
   }
 
 }

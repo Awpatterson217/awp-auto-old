@@ -25,12 +25,12 @@ export class UsersDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.uuid = this.route.snapshot.paramMap.get('uuid');
+    // this.uuid = this.route.snapshot.paramMap.get('uuid');
 
-    this.userService.getUser(this.uuid).subscribe((data) => {
-      this.user = data
-      this.tempUser = cloneDeep(this.user);
-    });
+    // this.userService.getUser(this.uuid).subscribe((data) => {
+    //   this.user = data
+    //   this.tempUser = cloneDeep(this.user);
+    // });
   }
 
   edit() {
@@ -38,8 +38,6 @@ export class UsersDetailComponent implements OnInit {
   }
 
   save() {
-    console.log('Old: ', this.user);
-    console.log('New: ', this.tempUser);
     this.userService.getUser(this.uuid).subscribe((data) => {
       this.user = data
       this.tempUser = cloneDeep(this.user);

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ServerService } from 'src/app/server.service';
-import { ProvisionService } from 'src/app/provision.service';
 import { ConfirmDialogComponent } from 'src/app/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material';
 
@@ -15,7 +14,6 @@ export class ServersListComponent implements OnInit {
 
   constructor(
     private serverService: ServerService,
-    private provisionService: ProvisionService,
     private dialog: MatDialog,
     ) {}
 
@@ -54,13 +52,6 @@ export class ServersListComponent implements OnInit {
   delete(id) {
     // DELETE /server/active {id}
     this.serverService.delete(id).subscribe((data: any) => {
-      this.getServers();
-    });
-  }
-
-  provision({ host, port, url, name }) {
-    // POST /provision {host, port, url, name}
-    this.provisionService.provision({ host, port, url, name }).subscribe((data: any) => {
       this.getServers();
     });
   }

@@ -1,0 +1,22 @@
+<div>
+  <p class="row">
+    <span class="col-3 label1">url:</span>
+    <span class="col-9"><input class="user-input" [(ngModel)]="options.url" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">host:</span>
+    <span class="col-9"><input class="user-input" [(ngModel)]="options.host" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">port:</span>
+    <span class="col-9"><input class="user-input" [(ngModel)]="options.port" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">max_memory_restart:</span>
+    <span class="col-9"><input class="user-input" [(ngModel)]="options.max_memory_restart" /></span>
+  </p>
+</div>
+
+<button matTooltip="Provision instance" (click)="openDialog()" matTooltipPosition="after" mat-icon-button>
+  Add Application <mat-icon>add</mat-icon>
+</button>

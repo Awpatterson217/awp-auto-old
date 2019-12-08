@@ -11,11 +11,17 @@
         <i *ngIf="server.status === 'errored'" class="material-icons text-danger mr-3">
           error
         </i>
-        <span class="server-title">{{ server.id | titlecase}}</span>
+        <span class="server-title">{{ server.name | titlecase}}</span>
       </mat-panel-title>
       <mat-panel-description>
-        <!-- {{ server.repository }} -->
-        <!-- {{ server.version }} -->
+        PID: {{ server.id }}
+        Instances: {{ server.instances }}
+        Repository: {{ server.url }}
+        Version: {{ server.version }}
+        Created: {{ server.created_at }}
+        Created: {{ server.pm_uptime }}
+        Memory: {{ server.memory }}
+        CPU: {{ server.cpu }}
       </mat-panel-description>
     </mat-expansion-panel-header>
 
@@ -27,7 +33,7 @@
         <button mat-raised-button (click)="delete(server.id)" class="btn btn-danger ml-2">Remove</button>
       </div>
       <div class="col-3 p-1">
-        <button mat-raised-button [routerLink]="['admin/dashboard/servers/logs', server.id]" class="btn btn-info">Logs</button>
+        <button mat-raised-button [routerLink]="['/logs', server.name]" class="btn btn-info">Logs</button>
       </div>
     </div>
   </mat-expansion-panel>

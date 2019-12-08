@@ -24,11 +24,11 @@ export class UsersTableComponent implements OnInit{
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit() {
-    this.userService.getUsers().subscribe((data: any) => {
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    // this.userService.getUsers().subscribe((data: any) => {
+    //   this.dataSource = new MatTableDataSource(data);
+    //   this.dataSource.paginator = this.paginator;
+    //   this.dataSource.sort = this.sort;
+    // });
   }
 
   openDialog() {
