@@ -7,15 +7,21 @@
 const express = require('express');
 
 const {
-  pm2
+  processManager
 } = require('../../');
 
 const config = require('../../../config');
 
+const {
+  services: {
+    path: servicesPath
+  }
+} = config;
+
 const router = express.Router();
 
 router.get('/server', (req, res) => {
-  pm2.listAll()
+  processManager.listAll({ servicesPath })
     .then((processes) => {
       res.set('Access-Control-Allow-Origin', '*').status(200).json(processes);
     })
@@ -29,7 +35,7 @@ router.get('/server', (req, res) => {
 router.get('/server/:id', (req, res) => {
   const { id } = req.params;
 
-  pm2.list(id)
+  processManager.list(id)
     .then((process) => {
       res.set('Access-Control-Allow-Origin', '*').status(200).json(process);
     })
@@ -49,7 +55,7 @@ router.put('/server', (req, res) => {
   } = req.body;
 
   if(action === 'suspend') {
-    pm2.suspend(id)
+    processManager.suspend(id)
       .then((result) => {
         if(result) {
           res.set('Access-Control-Allow-Origin', '*').status(200).json({});
@@ -61,7 +67,7 @@ router.put('/server', (req, res) => {
         res.status(500).json(error);
       });
   } else if(action === 'reload') {
-    pm2.reload(id)
+    processManager.reload(id)
       .then((result) => {
         if(result) {
           res.set('Access-Control-Allow-Origin', '*').status(200).json({});
@@ -73,7 +79,7 @@ router.put('/server', (req, res) => {
         res.status(500).json(error);
       });
   } else if(action === 'start') {
-    pm2.start(id)
+    processManager.start(id)
       .then((result) => {
         if(result) {
           res.set('Access-Control-Allow-Origin', '*').status(200).json({});
@@ -95,7 +101,7 @@ router.put('/server', (req, res) => {
 router.delete('/server/:id', (req, res) => {
   const { id } = req.params;
 
-  pm2.remove(id)
+  processManager.remove(id)
     .then((result) => {
       if(result) {
         res.set('Access-Control-Allow-Origin', '*').status(200).json({});

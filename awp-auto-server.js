@@ -19,21 +19,18 @@ app.use(express.json());
  * - Authentication API and UI.
  * - Login UIs
  * - Unique, generated paths that only exists for the duration of the session.
- * - Add provision tab to dashboard.
  * - Add dedicated database to manage login information.
  * - Automate installation.
- * - Add GIT repo, version number, and option to update the
- * web application for each listed server in dashboard.
+ * - Option to update applications
+ * - Differentiate between pm2 logging and custom logging
  * - Create an update API for managed web applications.
- * - Separate APIs by function using Routers.
- * - create build function (npm install && ng build)
- * - Integrate version numbers to directory paths.
- * - Logging
  * - Create update function and API
  * - Create sessions (Redis?)
  * - Testing
- * - Change all filter()[0] to find()
  * - Research pm2.startup(platform, errback)
+ * - Fix wrong version number displayed
+ * - Remove server logs component from dashboard in favor of dedicated page
+ * - Check that address are not already in use
  */
 
  /**
@@ -44,7 +41,6 @@ app.use(express.json());
   * and/or web application and/or API delivering data to web application from database
   * based on parameters.
   *
-  * create read package.config for version number and name
   */
 
 // const logger = winston.createLogger({
@@ -65,9 +61,10 @@ app.use(express.json());
 // logger.warn("");
 // logger.error("");
 
+// TODO: Add authentication middleware with server side session validation
+
 app.use(express.static(config.dashboard.path));
 
-// Allow refreshing of page
 app.use((req, res, next) => {
   if (req.originalUrl.includes('admin/dashboard')) {
     res.sendFile(`${config.dashboard.path}/index.html`);

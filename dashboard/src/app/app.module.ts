@@ -34,6 +34,8 @@ import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ProvisionComponent } from './provision/provision.component';
 import { ProvisionNewComponent } from './provision/provision-new/provision-new.component';
+import { LogsComponent } from './logs/logs.component';
+import { LogsPMComponent } from './logs/logs-pm/logs-pm.component';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ServersComponent } from './servers/servers.component';
@@ -71,9 +73,17 @@ const appRoutes: Routes = [{
         {path: '', redirectTo: 'table', pathMatch: 'full'},
       ]
     },
+    {
+      path: 'logs',
+      component: LogsComponent,
+      children: [
+        {path: 'pm', component: LogsPMComponent},
+        {path: '', redirectTo: 'pm', pathMatch: 'full'},
+      ]
+    },
     {path: 'home', component: HomeComponent},
     {path: 'settings', component: SettingsComponent},
-    {path: '', redirectTo: '/admin/dashboard/home', pathMatch: 'full'}
+    {path: '', redirectTo: '/admin/dashboard/servers/list', pathMatch: 'full'}
   ]
 }];
 
@@ -94,7 +104,9 @@ const appRoutes: Routes = [{
     DialogComponent,
     ConfirmDialogComponent,
     ProvisionComponent,
-    ProvisionNewComponent
+    ProvisionNewComponent,
+    LogsPMComponent,
+    LogsComponent
   ],
   imports: [
     AngularFontAwesomeModule,

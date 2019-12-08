@@ -1,0 +1,13 @@
+2019-12-08T16:15:04: Sun, 08 Dec 2019 21:15:04 GMT express deprecated res.send(status): Use res.sendStatus(status) instead at awp-auto-server.js:83:11
+2019-12-08T16:20:43: Error: Reload in progress
+2019-12-08T16:20:43:     at API.reload (C:\src\github\awp-auto\node_modules\pm2\lib\API.js:448:22)
+2019-12-08T16:20:43:     at Promise (internal/util.js:276:30)
+2019-12-08T16:20:43:     at new Promise (<anonymous>)
+2019-12-08T16:20:43:     at API.reload [as reloadAsync] (internal/util.js:275:12)
+2019-12-08T16:20:43:     at Object.reload (C:\src\github\awp-auto\src\process-manager\index.js:73:15)
+2019-12-08T16:26:36: Error: Reload in progress
+2019-12-08T16:26:36:     at API.reload (C:\src\github\awp-auto\node_modules\pm2\lib\API.js:448:22)
+2019-12-08T16:26:36:     at Promise (internal/util.js:276:30)
+2019-12-08T16:26:36:     at new Promise (<anonymous>)
+2019-12-08T16:26:36:     at API.reload [as reloadAsync] (internal/util.js:275:12)
+2019-12-08T16:26:36:     at Object.reload (C:\src\github\awp-auto\src\process-manager\index.js:73:15)

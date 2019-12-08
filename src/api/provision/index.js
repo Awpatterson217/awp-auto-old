@@ -7,14 +7,23 @@
 const express = require('express');
 
 const {
-  pm2
+  processManager
 } = require('../../');
 
 const router = express.Router();
 
 const config = require('../../../config');
 
-router.post('/provision', ({ body: { host, port, url }}, res) => {
+router.post('/provision', ({
+  body: {
+    host,
+    port,
+    repository,
+    activeURL,
+    instances,
+    maxMemoryUsage
+  }
+}, res) => {
   console.log(Date().toLocaleString() + " - Provision post");
 
   const {
@@ -29,13 +38,15 @@ router.post('/provision', ({ body: { host, port, url }}, res) => {
    const options = {
     host,
     port,
-    url,
+    repository,
     tempPath,
-    // instances,
-    servicesPath
+    instances,
+    servicesPath,
+    activeURL,
+    maxMemoryUsage
    };
 
-   pm2.provision(options)
+   processManager.provision(options)
     .then((result) => {
       console.log('finished provisioning: ', result);
     })

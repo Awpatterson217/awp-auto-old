@@ -1,5 +1,0 @@
-# Ignore generated back end servers
-*/
-
-# Do not ignore this gitignore
-!.gitignore

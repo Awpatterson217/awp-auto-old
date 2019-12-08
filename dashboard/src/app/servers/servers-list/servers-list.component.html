@@ -14,16 +14,36 @@
         <span class="server-title">{{ server.name | titlecase}}</span>
       </mat-panel-title>
       <mat-panel-description>
-        PID: {{ server.id }}
-        Instances: {{ server.instances }}
-        Repository: {{ server.url }}
-        Version: {{ server.version }}
-        Created: {{ server.created_at }}
-        Created: {{ server.pm_uptime }}
-        Memory: {{ server.memory }}
-        CPU: {{ server.cpu }}
+        {{ server.description }}
       </mat-panel-description>
     </mat-expansion-panel-header>
+
+    <div class="row p-3">
+      <div class="col-6">
+        <mat-list dense>
+          <mat-list-item>Version: &nbsp; {{ server.version }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>Active URL: &nbsp; <a [href]="sanitize(server.activeURL)" target="_blank">{{server.activeURL}}</a></mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>Repository: &nbsp; {{ server.repository }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>Created: &nbsp; {{ server.created_at | date:'EEEE, MMMM d, y, h:mm:ss a' }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>Uptime: &nbsp; {{ server.pm_uptime | date:'EEEE, MMMM d, y, h:mm:ss a' }}</mat-list-item>
+        </mat-list>
+      </div>
+      <div class="col-6">
+        <mat-list dense>
+          <mat-list-item>Unstable Restarts: &nbsp; {{ server.unstableRestarts }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>Instances: &nbsp; {{ server.instances }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>Memory: &nbsp; {{ formatBytes(server.memory) }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>CPU: &nbsp; {{ server.cpu }}%</mat-list-item>
+        </mat-list>
+      </div>
+    </div>
 
     <div class="row">
       <div class="col-9 p-1 text-center">

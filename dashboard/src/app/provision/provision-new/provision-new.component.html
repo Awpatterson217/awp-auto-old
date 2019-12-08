@@ -1,22 +1,39 @@
-<div>
+<div style="text-align: center" class="mat-display-1 heading-container">
+  Provisioning Engine
+</div>
+<div class="mb-4">
   <p class="row">
-    <span class="col-3 label1">url:</span>
-    <span class="col-9"><input class="user-input" [(ngModel)]="options.url" /></span>
+    <span class="col-3 label1">Repository:</span>
+    <span class="col-9"><input class="user-input" [(ngModel)]="options.repository" /></span>
   </p>
   <p class="row">
-    <span class="col-3 label1">host:</span>
+    <span class="col-3 label1">Host:</span>
     <span class="col-9"><input class="user-input" [(ngModel)]="options.host" /></span>
   </p>
   <p class="row">
-    <span class="col-3 label1">port:</span>
+    <span class="col-3 label1">Port:</span>
     <span class="col-9"><input class="user-input" [(ngModel)]="options.port" /></span>
   </p>
   <p class="row">
-    <span class="col-3 label1">max_memory_restart:</span>
-    <span class="col-9"><input class="user-input" [(ngModel)]="options.max_memory_restart" /></span>
+    <span class="col-3 label1">Active URL:</span>
+    <span class="col-9"><input class="user-input" [(ngModel)]="options.activeURL" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">Instances:</span>
+    <span class="col-9"><input class="user-input" [(ngModel)]="options.instances" /></span>
+  </p>
+  <p class="row">
+    <span class="col-3 label1">Max memory restart:</span>
+    <span class="col-9"><input class="user-input" [(ngModel)]="options.maxMemoryRestart" /></span>
   </p>
 </div>
 
-<button matTooltip="Provision instance" (click)="openDialog()" matTooltipPosition="after" mat-icon-button>
-  Add Application <mat-icon>add</mat-icon>
-</button>
+<div class="container">
+  <div class="row">
+    <div class="col text-center">
+      <button color="warn" matTooltip="Provision new instance" (click)="openDialog()" matTooltipPosition="after" mat-raised-button>
+        Provision New Instance
+      </button>
+    </div>
+  </div>
+</div>

@@ -17,7 +17,8 @@ const {
 const File = require('../file');
 const {
   makeServerString,
-  getVersions
+  getVersions,
+  makeConfigString
 } = require('../utils');
 
 pm2.connectAsync = util.promisify(pm2.connect);
@@ -109,7 +110,7 @@ async function list(id) {
   return {};
 }
 
-async function listAll() {
+async function listAll({ servicesPath }) {
   let list;
 
   try {
@@ -132,6 +133,7 @@ async function listAll() {
           pm_err_log_path,
           unique_id,
           pm_uptime,
+          unstable_restarts,
           created_at,
           version,
           node_version,
@@ -145,6 +147,27 @@ async function listAll() {
         }
       } = process;
 
+      let thisVersion = null;
+      let thisDesc = null;
+      let thisActiveURL = null;
+      let ThisRepository = null;
+
+      if (name !== 'awp-auto-server') {
+        // Get local configuration information
+        const servicePath = path.join(servicesPath, name, 'config.js');
+        const localConfig = require(servicePath);
+
+        thisActiveURL = localConfig.activeURL;
+        thisDesc = localConfig.description;
+        thisVersion = localConfig.currentVersion;
+        ThisRepository = localConfig.repository;
+      } else {
+        thisActiveURL = '127.0.0.1:3000';
+        thisDesc = 'Custom Automation Server';
+        thisVersion = version;
+        ThisRepository = url;
+      }
+
       return {
         name,
         id: pm_id,
@@ -152,11 +175,14 @@ async function listAll() {
         instances,
         pm_uptime,
         created_at,
-        version,
         node_version,
-        url,
         memory,
-        cpu
+        cpu,
+        unstableRestarts: unstable_restarts,
+        version: thisVersion,
+        activeURL: thisActiveURL,
+        description: thisDesc,
+        repository: ThisRepository
       };
     });
   }
@@ -164,12 +190,12 @@ async function listAll() {
   return [];
 }
 
-function installNPMModules({ cwd }) {
+function installNPMModules({ cwd, npmLogDirPath }) {
   console.log(Date().toLocaleString() + '- installNPMMOdules');
+
   return new Promise(resolve => {
     const child = spawn(
-      'npm',
-      ['install'],
+      'npm install',
       {
         cwd,
         detached: true,
@@ -178,18 +204,11 @@ function installNPMModules({ cwd }) {
       }
     );
 
-    const stdoutPath = path.join(cwd, 'npm', 'stdout.txt');
-    const stderrPath = path.join(cwd, 'npm', 'stderr.txt');
+    const stdoutPath = path.join(npmLogDirPath, 'stdout.txt');
+    const stderrPath = path.join(npmLogDirPath, 'stderr.txt');
+
     child.stdout.pipe(fs.createWriteStream(stdoutPath));
     child.stderr.pipe(fs.createWriteStream(stderrPath));
-
-    // child.stdout.on('data', (data) => {
-    //   console.log(`${Date().toLocaleString()} - child stdout:\n${data}`);
-    // });
-
-    // child.stderr.on('data', (data) => {
-    //   console.error(`${Date().toLocaleString()} - child stderr:\n${data}`);
-    // });
 
     child.on('exit', function (code) {
       console.log(`${Date().toLocaleString()} - child process exited with code ${code.toString()}`);
@@ -198,13 +217,13 @@ function installNPMModules({ cwd }) {
   });
 }
 
-function buildAngularApp({ cwd }) {
-  console.log(Date().toLocaleString() + '- buildAngularApp');
+function buildAngularApp({ cwd, ngloffdsgDirPath }) {
+  console.log(Date().toLocaleString() + ' - buildAngularApp');
+  console.log('ngloffdsgDirPath: ', ngloffdsgDirPath);
 
   return new Promise(resolve => {
     const child = spawn(
-      'ng',
-      ['build', '--prod=true'],
+      'ng build --prod=true',
       {
         cwd,
         detached: true,
@@ -213,51 +232,74 @@ function buildAngularApp({ cwd }) {
       }
     );
 
-    const stdoutPath = path.join(cwd, 'ng', 'stdout.txt');
-    const stderrPath = path.join(cwd, 'ng', 'stderr.txt');
+    const stdoutPath = path.join(ngloffdsgDirPath, 'stdout.txt');
+    const stderrPath = path.join(ngloffdsgDirPath, 'stderr.txt');
+
     child.stdout.pipe(fs.createWriteStream(stdoutPath));
     child.stderr.pipe(fs.createWriteStream(stderrPath));
 
-    // child.stdout.on('data', (data) => {
-    //   console.log(`${Date().toLocaleString()} - child stdout:\n${data}`);
-    // });
-
-    // child.stderr.on('data', (data) => {
-    //   console.error(`${Date().toLocaleString()} - child stderr:\n${data}`);
-    // });
-
     child.on('exit', function (code) {
       console.log(`${Date().toLocaleString()} - child process exited with code ${code.toString()}`);
-      resolve('Finished npm install');
+
+      resolve('Finished ng build --prod=true');
     });
   });
 }
 
-// TODO: Check for existing host and port numbers or throw error?
+// TODO
+// Thrown errors should be caught with updateApplication().catch()
+async function updateApplication({
+  name,
+  id,
+  currentVersion
+}) {
+
+  try {
+    versions = getVersions({
+      servicePath
+    });
+
+    console.log('versions: ', versions.getAll());
+    console.log('versions: ', versions);
+
+    // TODO
+    if (version in versions.getAll()) {
+      console.log('version already exists!');
+    }
+
+    makeConfigString();
+  } finally {
+
+  }
+}
+
+// TODO: Check for existing application
+// otherwise updateApplication should be used instead.
+// Thrown errors should be caught with provision().catch()
 async function provision({
   host,
   port,
-  url,
+  repository,
   servicesPath,
   tempPath,
+  activeURL,
+  // TODO: irrelevant unless in cluster mode
   instances = 1,
-  max_memory_restart = '100M'
+  maxMemoryUsage = '100M'
 }) {
-  if (!host || !port || !url || !servicesPath || !tempPath) {
+  if (!host || !port || !repository || !servicesPath || !tempPath) {
     throw new Error('Function provision - missing argument');
   }
 
   const jsonFilePath = path.join(tempPath, 'package.json');
   const jsonFile = new File(jsonFilePath);
 
-  let versions;
-
   try {
     // Ensure an empty temporary directory is ready.
     await fs.emptydir(tempPath);
 
     // Git clone the web application from repository.
-    await clone(url, tempPath);
+    await clone(repository, tempPath);
 
     // Read the package.json
     const packageJSON = await jsonFile.read();
@@ -266,63 +308,77 @@ async function provision({
     const {
       version,
       name,
-      description
+      description = 'No description'
     } = JSON.parse(packageJSON);
 
     // Find source path based on project name.
     const source = path.join(tempPath, 'dist', name);
 
     // Create service path based on project name and version number.
-    const servicePath = path.join(servicesPath, name, version);
+    const servicePath = path.join(servicesPath, name);
+    const versionPath = path.join(servicesPath, name, version);
 
     // Create log directory paths
-    const logsDirPath = path.join(servicePath, 'logs');
-    const npmLogDirPath = path.join(logsPath, 'npm');
-    const nglogDirPath = path.join(logsPath, 'ng');
+    const logsDirPath = path.join(versionPath, 'logs');
+    const installLogsDirPath = path.join(logsDirPath, 'install');
+    const pmLogsDirPath = path.join(logsDirPath, 'pm');
+    const npmLogDirPath = path.join(logsDirPath, 'install', 'npm');
+    const ngloffdsgDirPath = path.join(logsDirPath, 'install', 'ng');
 
-    const stdoutPath = path.join(logsPath, 'stdout.txt');
-    const errorPath = path.join(logsPath, 'error.txt');
+    const pmServerLogsPath = path.join(pmLogsDirPath, 'server.txt');
+    const pmErrorLogsPath = path.join(pmLogsDirPath, 'error.txt');
 
     // Create destination path to copy web application contents to.
-    const destination = path.join(servicePath, 'www');
+    const destination = path.join(versionPath, 'www');
 
     // Create server path based on servicePath.
     const serverPath = path.join(servicePath, 'server.js');
     const serverFile = new File(serverPath);
 
-    // Ensure an empty directory for this service is ready.
-    await fs.emptydir(servicePath);
+    const configPath = path.join(servicePath, 'config.js');
+    const configFile = new File(configPath);
 
-    // Ensure all log directories exist
-    await fs.emptydir(servicePath);
+    // Ensure this application does not already exist before proceeding
+    if (fs.existsSync(servicePath)) {
+      console.log('Application already exists!');
+      // throw new Error('Application already exists!');
+    }
+
+    // Ensure an empty directory for this service is ready.
+    // await fs.emptydir(servicePath);
+
+    // Ensure all directories exist
+    await fs.emptydir(versionPath);
     await fs.emptydir(logsDirPath);
+    await fs.emptydir(installLogsDirPath);
+    await fs.emptydir(pmLogsDirPath);
     await fs.emptydir(npmLogDirPath);
-    await fs.emptydir(nglogDirPath);
+    await fs.emptydir(ngloffdsgDirPath);
 
     // Build the npm modules.
-    await installNPMModules({ cwd: tempPath });
+    await installNPMModules({ cwd: tempPath, npmLogDirPath });
 
     // Build the web application in the temporary directory.
-    await buildAngularApp({ cwd: tempPath });
-
-    versions = getVersions({
-      servicePath
-    });
-
-    console.log('versions: ', versions.getAll());
-    console.log('versions: ', versions);
-
-    // Check that this version does not already exist.
-    // TODO
-    if (version in versions.getAll()) {
-      console.log('version already exists!');
-    }
+    await buildAngularApp({ cwd: tempPath, ngloffdsgDirPath });
 
     // Create the Express server.
     await serverFile.write({
       data: makeServerString({
         host,
-        port
+        port,
+        version
+      })
+    });
+
+    // Create the config gile
+    await configFile.write({
+      data: makeConfigString({
+        localhost: host,
+        localport: port,
+        currentVersion: version,
+        description,
+        activeURL,
+        repository
       })
     });
 
@@ -337,25 +393,18 @@ async function provision({
 
     // Start the web application
     await pm2.startAsync({
-      output: stdoutPath,
-      error: errorPath,
+      output: pmServerLogsPath,
+      error: pmErrorLogsPath,
       script: serverPath,
       name,
       instances,
-      max_memory_restart
+      max_memory_restart: maxMemoryUsage
     });
   } finally {
     await pm2.disconnect();
   }
 
-  // TODO: Version property
-  return {
-    name: versions.name,
-    port,
-    host,
-    url,
-    versions
-  };
+  return true;
 }
 
 // TODO

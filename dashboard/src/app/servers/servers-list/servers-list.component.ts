@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServerService } from 'src/app/server.service';
 import { ConfirmDialogComponent } from 'src/app/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'servers-list',
@@ -15,6 +16,7 @@ export class ServersListComponent implements OnInit {
   constructor(
     private serverService: ServerService,
     private dialog: MatDialog,
+    private sanitizer:DomSanitizer
     ) {}
 
   ngOnInit() {
@@ -62,5 +64,21 @@ export class ServersListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
+  sanitize(url:string){
+    return this.sanitizer.bypassSecurityTrustUrl(`http://${url}`);
   }
 }

@@ -13,7 +13,10 @@ export class ProvisionNewComponent implements OnInit {
   options = {
     host: null,
     port: null,
-    url: null,
+    repository: null,
+    instances: null,
+    maxMemoryUsage: null,
+    activeURL: null
   };
 
   constructor(
@@ -25,10 +28,8 @@ export class ProvisionNewComponent implements OnInit {
 
   }
 
-  provision({ host, port, url }) {
-    // POST /provision {host, port, url }
-    this.provisionService.provision({ host, port, url }).subscribe((data: any) => {
-      console.log(`Provisioning instance from ${url} at ${host}:${port}`);
+  provision(options) {
+    this.provisionService.provision(options).subscribe((data: any) => {
       console.log({data});
     });
   }

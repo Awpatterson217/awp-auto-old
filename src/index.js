@@ -7,5 +7,5 @@
 module.exports = {
   file: require('./file'),
   utils: require('./utils'),
-  pm2: require('./pm2')
+  processManager: require('./process-manager')
 };
