@@ -1,2 +1,1 @@
-2019-12-08T16:17:42: Server listening at 127.0.0.2:3000
-2019-12-08T16:18:14: Server listening at 127.0.0.2:3000
+Server listening at 127.0.0.2:3000

@@ -30,7 +30,6 @@ export class ServersListComponent implements OnInit {
   }
 
   start(id) {
-    // PUT /server/active {action: "start"}
     this.serverService.update({ action: 'start', id }).subscribe((data: any) => {
       console.log(data);
       this.getServers();
@@ -38,21 +37,18 @@ export class ServersListComponent implements OnInit {
   }
 
   reload(id) {
-    // PUT /server/active {action: "reload"}
     this.serverService.update({ action: 'reload', id }).subscribe((data: any) => {
       this.getServers();
     });
   }
 
   suspend(id) {
-    // PUT /server/active {action: "suspend"}
     this.serverService.update({ action: 'suspend', id }).subscribe((data: any) => {
       this.getServers();
     });
   }
 
   delete(id) {
-    // DELETE /server/active {id}
     this.serverService.delete(id).subscribe((data: any) => {
       this.getServers();
     });

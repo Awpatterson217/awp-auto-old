@@ -11,7 +11,7 @@
         <i *ngIf="server.status === 'errored'" class="material-icons text-danger mr-3">
           error
         </i>
-        <span class="server-title">{{ server.name | titlecase}}</span>
+        <span class="server-title">{{ server.name }}</span>
       </mat-panel-title>
       <mat-panel-description>
         {{ server.description }}
@@ -47,10 +47,10 @@
 
     <div class="row">
       <div class="col-9 p-1 text-center">
-        <button mat-raised-button (click)="start(server.id)" class="btn btn-success">Start</button>
-        <button mat-raised-button (click)="reload(server.id)" class="btn btn-primary  ml-2">Reload</button>
-        <button mat-raised-button (click)="suspend(server.id)" class="btn btn-warning ml-2">Suspend</button>
-        <button mat-raised-button (click)="delete(server.id)" class="btn btn-danger ml-2">Remove</button>
+        <button mat-raised-button (click)="start(server.name)" class="btn btn-success">Start</button>
+        <button mat-raised-button (click)="reload(server.name)" class="btn btn-primary  ml-2">Reload</button>
+        <button mat-raised-button (click)="suspend(server.name)" class="btn btn-warning ml-2">Suspend</button>
+        <button mat-raised-button (click)="delete(server.name)" class="btn btn-danger ml-2">Remove</button>
       </div>
       <div class="col-3 p-1">
         <button mat-raised-button [routerLink]="['/logs', server.name]" class="btn btn-info">Logs</button>

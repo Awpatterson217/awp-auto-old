@@ -217,9 +217,8 @@ function installNPMModules({ cwd, npmLogDirPath }) {
   });
 }
 
-function buildAngularApp({ cwd, ngloffdsgDirPath }) {
+function buildAngularApp({ cwd, ngLogDirPath }) {
   console.log(Date().toLocaleString() + ' - buildAngularApp');
-  console.log('ngloffdsgDirPath: ', ngloffdsgDirPath);
 
   return new Promise(resolve => {
     const child = spawn(
@@ -232,8 +231,8 @@ function buildAngularApp({ cwd, ngloffdsgDirPath }) {
       }
     );
 
-    const stdoutPath = path.join(ngloffdsgDirPath, 'stdout.txt');
-    const stderrPath = path.join(ngloffdsgDirPath, 'stderr.txt');
+    const stdoutPath = path.join(ngLogDirPath, 'stdout.txt');
+    const stderrPath = path.join(ngLogDirPath, 'stderr.txt');
 
     child.stdout.pipe(fs.createWriteStream(stdoutPath));
     child.stderr.pipe(fs.createWriteStream(stderrPath));
@@ -323,7 +322,7 @@ async function provision({
     const installLogsDirPath = path.join(logsDirPath, 'install');
     const pmLogsDirPath = path.join(logsDirPath, 'pm');
     const npmLogDirPath = path.join(logsDirPath, 'install', 'npm');
-    const ngloffdsgDirPath = path.join(logsDirPath, 'install', 'ng');
+    const ngLogDirPath = path.join(logsDirPath, 'install', 'ng');
 
     const pmServerLogsPath = path.join(pmLogsDirPath, 'server.txt');
     const pmErrorLogsPath = path.join(pmLogsDirPath, 'error.txt');
@@ -353,13 +352,13 @@ async function provision({
     await fs.emptydir(installLogsDirPath);
     await fs.emptydir(pmLogsDirPath);
     await fs.emptydir(npmLogDirPath);
-    await fs.emptydir(ngloffdsgDirPath);
+    await fs.emptydir(ngLogDirPath);
 
     // Build the npm modules.
     await installNPMModules({ cwd: tempPath, npmLogDirPath });
 
     // Build the web application in the temporary directory.
-    await buildAngularApp({ cwd: tempPath, ngloffdsgDirPath });
+    await buildAngularApp({ cwd: tempPath, ngLogDirPath });
 
     // Create the Express server.
     await serverFile.write({

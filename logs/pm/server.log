@@ -1,33 +1,46 @@
-2019-12-08T15:47:34: Automation server listening at 127.0.0.1:3000
-2019-12-08T16:15:42: Automation server listening at 127.0.0.1:3000
-2019-12-08T16:16:30: Sun Dec 08 2019 16:16:30 GMT-0500 (Eastern Standard Time) - Provision post
-2019-12-08T16:16:30: Sun Dec 08 2019 16:16:30 GMT-0500 (Eastern Standard Time)- installNPMMOdules
-2019-12-08T16:17:02: Sun Dec 08 2019 16:17:02 GMT-0500 (Eastern Standard Time) - child process exited with code 0
-2019-12-08T16:17:02: Sun Dec 08 2019 16:17:02 GMT-0500 (Eastern Standard Time) - buildAngularApp
-2019-12-08T16:17:02: ngloffdsgDirPath:  C:\src\github\awp-auto\services\test-ng-app-one\0.0.1\logs\install\ng
-2019-12-08T16:17:35: Sun Dec 08 2019 16:17:35 GMT-0500 (Eastern Standard Time) - child process exited with code 0
-2019-12-08T16:17:41: finished provisioning:  true
-2019-12-08T16:18:12: { action: 'reload', id: 1 }
-2019-12-08T16:18:45: Sun Dec 08 2019 16:18:45 GMT-0500 (Eastern Standard Time) - Provision post
-2019-12-08T16:18:45: Sun Dec 08 2019 16:18:45 GMT-0500 (Eastern Standard Time)- installNPMMOdules
-2019-12-08T16:19:17: Sun Dec 08 2019 16:19:17 GMT-0500 (Eastern Standard Time) - child process exited with code 0
-2019-12-08T16:19:17: Sun Dec 08 2019 16:19:17 GMT-0500 (Eastern Standard Time) - buildAngularApp
-2019-12-08T16:19:17: ngloffdsgDirPath:  C:\src\github\awp-auto\services\test-ng-app-two\0.0.0\logs\install\ng
-2019-12-08T16:19:51: Sun Dec 08 2019 16:19:51 GMT-0500 (Eastern Standard Time) - child process exited with code 0
-2019-12-08T16:19:57: finished provisioning:  true
-2019-12-08T16:20:41: { action: 'reload', id: 0 }
-2019-12-08T16:20:43: Automation server listening at 127.0.0.1:3000
-2019-12-08T16:20:43: { action: 'reload', id: 0 }
-2019-12-08T16:24:36: { action: 'reload', id: 0 }
-2019-12-08T16:24:38: Automation server listening at 127.0.0.1:3000
-2019-12-08T16:26:34: { action: 'reload', id: 0 }
-2019-12-08T16:26:36: Automation server listening at 127.0.0.1:3000
-2019-12-08T16:26:36: { action: 'reload', id: 0 }
-2019-12-08T16:26:54: Sun Dec 08 2019 16:26:54 GMT-0500 (Eastern Standard Time) - Provision post
-2019-12-08T16:26:54: Application already exists!
-2019-12-08T16:26:54: Sun Dec 08 2019 16:26:54 GMT-0500 (Eastern Standard Time)- installNPMMOdules
-2019-12-08T16:27:26: Sun Dec 08 2019 16:27:26 GMT-0500 (Eastern Standard Time) - child process exited with code 0
-2019-12-08T16:27:26: Sun Dec 08 2019 16:27:26 GMT-0500 (Eastern Standard Time) - buildAngularApp
-2019-12-08T16:27:26: ngloffdsgDirPath:  C:\src\github\awp-auto\services\test-ng-app-two\0.0.0\logs\install\ng
-2019-12-08T16:27:59: Sun Dec 08 2019 16:27:59 GMT-0500 (Eastern Standard Time) - child process exited with code 0
-2019-12-08T16:28:04: finished provisioning:  true
+2019-12-08T22:38:41: Automation server listening at 127.0.0.1:3000
+2019-12-08T22:38:53: { action: 'suspend', id: 'test-ng-app-one' }
+2019-12-08T22:39:09: Sun Dec 08 2019 22:39:09 GMT-0500 (Eastern Standard Time) - Provision post
+2019-12-08T22:39:09: Application already exists!
+2019-12-08T22:39:09: Sun Dec 08 2019 22:39:09 GMT-0500 (Eastern Standard Time)- installNPMMOdules
+2019-12-08T22:39:45: Sun Dec 08 2019 22:39:45 GMT-0500 (Eastern Standard Time) - child process exited with code 0
+2019-12-08T22:39:45: Sun Dec 08 2019 22:39:45 GMT-0500 (Eastern Standard Time) - buildAngularApp
+2019-12-08T22:41:32: Automation server listening at 127.0.0.1:3000
+2019-12-08T22:41:49: Sun Dec 08 2019 22:41:49 GMT-0500 (Eastern Standard Time) - Provision post
+2019-12-08T22:41:55: Application already exists!
+2019-12-08T22:41:55: Sun Dec 08 2019 22:41:55 GMT-0500 (Eastern Standard Time)- installNPMMOdules
+2019-12-08T22:42:28: Sun Dec 08 2019 22:42:28 GMT-0500 (Eastern Standard Time) - child process exited with code 0
+2019-12-08T22:42:28: Sun Dec 08 2019 22:42:28 GMT-0500 (Eastern Standard Time) - buildAngularApp
+2019-12-08T22:43:38: Automation server listening at 127.0.0.1:3000
+2019-12-08T22:43:53: Sun Dec 08 2019 22:43:53 GMT-0500 (Eastern Standard Time) - Provision post
+2019-12-08T22:43:59: Application already exists!
+2019-12-08T22:43:59: Sun Dec 08 2019 22:43:59 GMT-0500 (Eastern Standard Time)- installNPMMOdules
+2019-12-08T22:44:34: Sun Dec 08 2019 22:44:34 GMT-0500 (Eastern Standard Time) - child process exited with code 0
+2019-12-08T22:44:34: Sun Dec 08 2019 22:44:34 GMT-0500 (Eastern Standard Time) - buildAngularApp
+2019-12-08T22:45:24: Automation server listening at 127.0.0.1:3000
+2019-12-08T22:45:34: Sun Dec 08 2019 22:45:34 GMT-0500 (Eastern Standard Time) - Provision post
+2019-12-08T22:45:40: Application already exists!
+2019-12-08T22:45:40: Sun Dec 08 2019 22:45:40 GMT-0500 (Eastern Standard Time)- installNPMMOdules
+2019-12-08T22:46:13: Sun Dec 08 2019 22:46:13 GMT-0500 (Eastern Standard Time) - child process exited with code 0
+2019-12-08T22:46:13: Sun Dec 08 2019 22:46:13 GMT-0500 (Eastern Standard Time) - buildAngularApp
+2019-12-08T22:46:50: Sun Dec 08 2019 22:46:50 GMT-0500 (Eastern Standard Time) - child process exited with code 0
+2019-12-08T22:46:56: finished provisioning:  true
+2019-12-08T22:47:03: { action: 'suspend', id: 'test-ng-app-one' }
+2019-12-08T22:47:06: { action: 'start', id: 'test-ng-app-one' }
+2019-12-09T22:11:42: Automation server listening at 127.0.0.1:3000
+2019-12-09T22:13:01: Mon Dec 09 2019 22:13:01 GMT-0500 (Eastern Standard Time) - Provision post
+2019-12-09T22:13:01: Application already exists!
+2019-12-09T22:13:01: Mon Dec 09 2019 22:13:01 GMT-0500 (Eastern Standard Time)- installNPMMOdules
+2019-12-09T22:13:51: Mon Dec 09 2019 22:13:51 GMT-0500 (Eastern Standard Time) - child process exited with code 0
+2019-12-09T22:13:51: Mon Dec 09 2019 22:13:51 GMT-0500 (Eastern Standard Time) - buildAngularApp
+2019-12-09T22:14:45: Mon Dec 09 2019 22:14:45 GMT-0500 (Eastern Standard Time) - child process exited with code 0
+2019-12-09T22:14:52: finished provisioning:  true
+2019-12-09T22:21:34: Mon Dec 09 2019 22:21:34 GMT-0500 (Eastern Standard Time) - Provision post
+2019-12-09T22:21:35: Mon Dec 09 2019 22:21:35 GMT-0500 (Eastern Standard Time)- installNPMMOdules
+2019-12-09T22:22:20: Mon Dec 09 2019 22:22:20 GMT-0500 (Eastern Standard Time) - child process exited with code 0
+2019-12-09T22:22:20: Mon Dec 09 2019 22:22:20 GMT-0500 (Eastern Standard Time) - buildAngularApp
+2019-12-09T22:23:15: Mon Dec 09 2019 22:23:15 GMT-0500 (Eastern Standard Time) - child process exited with code 0
+2019-12-09T22:23:23: finished provisioning:  true
+2019-12-09T22:24:16: { action: 'reload', id: 'test-ng-app-four' }
+2019-12-09T22:25:01: { action: 'suspend', id: 'test-ng-app-two' }
+2019-12-09T22:25:11: { action: 'start', id: 'test-ng-app-two' }
