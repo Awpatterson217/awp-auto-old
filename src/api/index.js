@@ -6,8 +6,10 @@
 
 const provision = require('./provision');
 const server = require('./server');
+const log = require('./log');
 
 module.exports = {
   provision,
-  server
+  server,
+  log
 };

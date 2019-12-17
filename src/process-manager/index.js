@@ -6,7 +6,9 @@
 
 const util = require('util');
 const path = require('path');
-const { exec, spawn } = require('child_process');
+const {
+  spawn
+} = require('child_process');
 
 const fs = require('fs-extra');
 const pm2 = require('pm2');
@@ -14,12 +16,12 @@ const {
   Clone: clone
 } = require('nodegit');
 
-const File = require('../file');
 const {
   makeServerString,
   getVersions,
   makeConfigString
 } = require('../utils');
+const File = require('../file');
 
 pm2.connectAsync = util.promisify(pm2.connect);
 pm2.startAsync = util.promisify(pm2.start);
@@ -27,8 +29,6 @@ pm2.listAsync = util.promisify(pm2.list);
 pm2.stopAsync = util.promisify(pm2.stop);
 pm2.deleteAsync = util.promisify(pm2.delete);
 pm2.reloadAsync = util.promisify(pm2.reload);
-
-const execAsync = util.promisify(exec);
 
 async function start(id) {
   try {
@@ -162,6 +162,8 @@ async function listAll({ servicesPath }) {
         thisVersion = localConfig.currentVersion;
         ThisRepository = localConfig.repository;
       } else {
+        // TODO: Get from config
+        // Information to be specified on install
         thisActiveURL = '127.0.0.1:3000';
         thisDesc = 'Custom Automation Server';
         thisVersion = version;
@@ -272,8 +274,6 @@ async function updateApplication({
   }
 }
 
-// TODO: Check for existing application
-// otherwise updateApplication should be used instead.
 // Thrown errors should be caught with provision().catch()
 async function provision({
   host,
@@ -406,8 +406,7 @@ async function provision({
   return true;
 }
 
-// TODO
-// pm2.startup(platform, errback)
+// TODO: pm2.startup(platform, errback)
 
 module.exports = {
   provision,
